@@ -1,49 +1,50 @@
 package org.juanlopezaranzazu.controller;
 
+import org.juanlopezaranzazu.dto.ProductRequest;
+import org.juanlopezaranzazu.dto.ProductResponse;
+import org.juanlopezaranzazu.entity.Product;
+import org.juanlopezaranzazu.service.ProductService;
+
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
-import org.juanlopezaranzazu.entity.Product;
-import org.juanlopezaranzazu.service.ProductService;
-
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProductController {
+
     @Inject
     ProductService productService;
 
     @GET
-    public List<Product> getAll() {
+    public List<ProductResponse> getAll() {
         return productService.findAll();
     }
 
     @GET
     @Path("/{id}")
-    public Product getById(@PathParam("id") Long id) {
+    public ProductResponse getById(@PathParam("id") Long id) {
         return productService.findById(id);
     }
 
     @POST
-    @Transactional
-    public Product create(Product product) {
-        return productService.create(product);
+    public ProductResponse create(@Valid ProductRequest request) {
+        return productService.create(request);
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    public Product update(@PathParam("id") Long id, Product product) {
-        return productService.update(id, product);
+    public ProductResponse update(@PathParam("id") Long id,
+                                  @Valid ProductRequest request) {
+        return productService.update(id, request);
     }
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public void delete(@PathParam("id") Long id) {
         productService.delete(id);
     }
