@@ -1,4 +1,4 @@
-package org.juanlopezaranzazu;
+package org.juanlopezaranzazu.controller;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
